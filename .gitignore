@@ -8,6 +8,13 @@
 *.so
 *.dylib
 
+# Data files
+*.tsv
+*.csv
+*.xls
+*.xlsx
+imdb_pg11
+
 # Test binary, built with `go test -c`
 *.test
 
@@ -15,8 +22,6 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
 
-# Go workspace file
-go.work
-go.work.sum
+.idea/

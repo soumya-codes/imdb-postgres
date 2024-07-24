@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16.2
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: imdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./config/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./config/pg_hba.conf:/etc/postgresql/pg_hba.conf
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
+
+  data_loader:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: data_loader
+    depends_on:
+      - postgres
+    volumes:
+      - ./data:/data
+      - ./scripts:/scripts
+    entrypoint: ["sh", "/scripts/load_data.sh"]
+
+volumes:
+  pgdata:
